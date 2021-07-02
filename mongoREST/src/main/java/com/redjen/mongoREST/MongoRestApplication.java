@@ -9,4 +9,5 @@ public class MongoRestApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MongoRestApplication.class, args);
 	}
+}
 
