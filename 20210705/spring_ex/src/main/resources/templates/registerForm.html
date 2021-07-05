@@ -11,11 +11,13 @@
                 var password = $("#password");
                 var userName = $("#userName");
                 var email = $("#email");
+                var dateOfBirth = $("#dateOfBirth");
 
                 var userIdVal = userId.val();
                 var passwordVal = password.val();
                 var userNameVal = userName.val();
                 var emailVal = email.val();
+                var dateOfBirthVal = dateOfBirth.val();
 
                 var genderVal = $('input[name="gender"]:checked').val();
 
@@ -27,7 +29,8 @@
                     password : passwordVal,
                     userName : userNameVal,
                     email : emailVal,
-                    gender : genderVal
+                    gender : genderVal,
+                    dateOfBirth : dateOfBirthVal
                 };
 
                 $.ajax({
@@ -67,6 +70,10 @@
         <tr>
             <td>이메일</td>
             <td><input id="email" name="email" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>생년월일</td>
+            <td><input id="dateOfBirth" name="dateOfBirth" type="date" value=""/></td>
         </tr>
         <tr>
             <td>성별</td>
