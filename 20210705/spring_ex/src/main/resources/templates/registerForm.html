@@ -13,13 +13,30 @@
                 var email = $("#email");
                 var dateOfBirth = $("#dateOfBirth");
 
+                var addressPostCode = $("#addressPostCode");
+                var addressLocation = $("#addressLocation");
+
+                var cardNo1 = $("#cardNo1");
+                var cardValidMonth1 = $("#cardValidMonth1");
+                var cardNo2 = $("#cardNo2");
+                var cardValidMonth2 = $("#cardValidMonth2");
+
+
                 var userIdVal = userId.val();
                 var passwordVal = password.val();
                 var userNameVal = userName.val();
                 var emailVal = email.val();
                 var dateOfBirthVal = dateOfBirth.val();
-
+                
                 var genderVal = $('input[name="gender"]:checked').val();
+                
+                var addressPostCodeVal = addressPostCode.val();
+                var addressLocationVal = addressLocation.val();
+
+                var cardNo1Val = cardNo1.val();
+                var cardValidMonth1Val = cardValidMonth1.val();
+                var cardNo2Val = cardNo2.val();
+                var cardValidMonth2Val = cardValidMonth2.val();
 
                 console.log(genderVal);
                 console.log(userId);
@@ -30,7 +47,21 @@
                     userName : userNameVal,
                     email : emailVal,
                     gender : genderVal,
-                    dateOfBirth : dateOfBirthVal
+                    dateOfBirth : dateOfBirthVal,
+                    address : {
+                        postCode : addressPostCodeVal,
+                        location : addressLocationVal
+                    },
+                    cardList : [
+                        {
+                            no : cardNo1Val,
+                            validMonth : cardValidMonth1Val
+                        },
+                        {
+                            no : cardNo2Val,
+                            validMonth : cardValidMonth2Val
+                        }
+                    ]
                 };
 
                 $.ajax({
@@ -74,6 +105,30 @@
         <tr>
             <td>생년월일</td>
             <td><input id="dateOfBirth" name="dateOfBirth" type="date" value=""/></td>
+        </tr>
+        <tr>
+            <td>우편번호</td>
+            <td><input id="addressPostCode" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td><input id="addressLocation" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>카드 1-번호</td>
+            <td><input id="cardNo1" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>카드 1-유효년월</td>
+            <td><input id="cardValidMonth1" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>카드 2-번호</td>
+            <td><input id="cardNo2" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>카드 2-유효년월</td>
+            <td><input id="cardValidMonth2" type="text" value=""/></td>
         </tr>
         <tr>
             <td>성별</td>

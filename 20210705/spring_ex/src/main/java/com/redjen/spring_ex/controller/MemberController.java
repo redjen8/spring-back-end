@@ -1,7 +1,5 @@
 package com.redjen.spring_ex.controller;
 
-import com.redjen.spring_ex.domain.Member;
-
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +22,10 @@ import com.mongodb.client.MongoClients;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import com.redjen.spring_ex.domain.Member;
+import com.redjen.spring_ex.domain.Address;
+import com.redjen.spring_ex.domain.Card;
+
 import java.util.List;
 
 @Slf4j
@@ -34,8 +36,40 @@ public class MemberController {
     @PostMapping(value="", produces="text/plain; charset=UTF-8")
     public ResponseEntity<String> register(@Validated @RequestBody Member member, BindingResult result) {
         log.info("register");
+        
+        log.info("member.getUserId()= " + member.getUserId());
+        log.info("member.getPassword()= " + member.getPassword());
+        log.info("member.getUserName()= " + member.getUserName());
+        log.info("member.getEmail()= " + member.getEmail());
+        log.info("member.getGender()= " + member.getGender());
+        log.info("member.getDateOfBirth()= " + member.getDateOfBirth());
+
+        Address address = member.getAddress();
+
+        if(address != null) {
+            log.info("address != null address.getPostCode()= " + address.getPostCode());
+            log.info("address != null address.getLocation()= " + address.getLocation());
+        } else {
+            log.info("address == null");
+        }
+
+        List<Card> cardList = member.getCardList();
+
+        if(cardList != null) {
+            log.info("cardList != null = " + cardList.size());
+
+            for(int i = 0; i < cardList.size(); i++) {
+                Card card = cardList.get(i);
+                log.info("card.getNo()= " + card.getNo());
+                log.info("card.getValiMonth()= " + card.getValidMonth());
+            }
+        } else {
+            log.info("cardList == null");
+        }
+
 
         log.info("result.hasErrors()= " + result.hasErrors());
+        
         if(result.hasErrors()) {
             List<ObjectError> allErrors = result.getAllErrors();
             List<ObjectError> globalErrors = result.getGlobalErrors();
@@ -64,16 +98,8 @@ public class MemberController {
             ResponseEntity<String> entity = new ResponseEntity<String>(result.toString(), HttpStatus.BAD_REQUEST);
             return entity;
         }
-        
-        log.info("member.getUserId()= " + member.getUserId());
-        log.info("member.getPassword()= " + member.getPassword());
-        log.info("member.getUserName()= " + member.getUserName());
-        log.info("member.getEmail()= " + member.getEmail());
-        log.info("member.getGender()= " + member.getGender());
-        log.info("member.getDateOfBirth()= " + member.getDateOfBirth());
-
-        MongoOperations mongoOps = new MongoTemplate(MongoClients.create(), "test");
-        mongoOps.insert(member);
+        //MongoOperations mongoOps = new MongoTemplate(MongoClients.create(), "test");
+        //mongoOps.insert(member);
 
         ResponseEntity<String> entity = new ResponseEntity<String>("Success", HttpStatus.OK);
         return entity;

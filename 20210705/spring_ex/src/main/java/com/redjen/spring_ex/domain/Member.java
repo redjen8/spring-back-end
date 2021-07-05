@@ -3,9 +3,12 @@ package com.redjen.spring_ex.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +28,12 @@ public class Member {
     @Email
     private String email;
     private String gender;
+
+    @Valid
+    private Address address;
+
+    @Valid
+    private List<Card> cardList;
 
     @Past
     @JsonFormat(pattern = "yyyy-MM-dd")
