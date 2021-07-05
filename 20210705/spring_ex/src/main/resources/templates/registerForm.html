@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="js/jQuery-2.1.4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#registerBtn01").on("click", function(){
+                var userId = $("#userId");
+                var password = $("#password");
+                var userIdVal = userId.val();
+                var passwordVal = password.val();
+
+                var dateOfBirthVal = "2019-09-18";
+
+                var userObject = {
+                    userId : userIdVal,
+                    password : passwordVal,
+                    dateOfBirth : dateOfBirthVal
+                };
+                $.ajax({
+                    type : "POST",
+                    url : "/register",
+                    contentType : "application/json; charset=UTF-8",
+                    success : function(data) {
+                        console.log("data: " + data);
+                        alert(JSON.stringify(data));
+                    },
+                    error : function(xhr, status, error) {
+                        alert("code: " + xhr.status + "\n"
+                        + "message : " + xhr.responseText + "\n"
+                        + "error : " + error);
+                    }
+                });
+            });
+
+            $("#readBtn").on("click", function(){
+                $.ajax({
+                    type : "GET",
+                    url : "/read",
+                    contentType : "application/json; charset=UTF-8",
+                    success : function(data) {
+                        console.log("data: " + data);
+                        alert(JSON.stringify(data));
+                    },
+                    error : function(xhr, status, error) {
+                        alert("code: " + xhr.status + "\n"
+                        + "message : " + xhr.responseText + "\n"
+                        + "error : " + error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>ajax Test</h1>
+    <form>
+        userId : <input type="text" name="userId" value="hongkd" id="userId"><br>
+        password : <input type="text" name="password" value="1234" id="password"><br>
+    </form>s
+    <div>
+        <button id="registerBtn01">register1</button>
+        <button id="readBtn">read</button>
+    </div>
+</body>
+</html>
