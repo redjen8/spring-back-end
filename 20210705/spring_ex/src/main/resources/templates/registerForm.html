@@ -3,7 +3,7 @@
 <head>
     <title>Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="js/jQuery-2.1.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $("#registerBtn01").on("click", function(){
@@ -22,6 +22,7 @@
                 $.ajax({
                     type : "POST",
                     url : "/register",
+                    data : JSON.stringify(userObject),
                     contentType : "application/json; charset=UTF-8",
                     success : function(data) {
                         console.log("data: " + data);
@@ -59,7 +60,7 @@
     <form>
         userId : <input type="text" name="userId" value="hongkd" id="userId"><br>
         password : <input type="text" name="password" value="1234" id="password"><br>
-    </form>s
+    </form>
     <div>
         <button id="registerBtn01">register1</button>
         <button id="readBtn">read</button>
