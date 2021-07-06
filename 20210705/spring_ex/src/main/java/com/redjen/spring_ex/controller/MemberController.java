@@ -2,6 +2,7 @@ package com.redjen.spring_ex.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,7 @@ public class MemberController {
 
     @Autowired
     private MemberRepository memberRepository;
+
 
     @PostMapping(value="", produces="text/plain; charset=UTF-8")
     public ResponseEntity<String> register(@Validated @RequestBody Member member, BindingResult result) {
