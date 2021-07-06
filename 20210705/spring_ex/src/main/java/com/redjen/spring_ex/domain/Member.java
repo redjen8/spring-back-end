@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Entity;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -13,9 +16,11 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Entity
 public class Member {
 
     @NotBlank
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private String userId;
 
     @NotBlank

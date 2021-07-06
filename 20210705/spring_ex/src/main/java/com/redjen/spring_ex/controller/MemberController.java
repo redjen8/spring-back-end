@@ -1,5 +1,6 @@
 package com.redjen.spring_ex.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,18 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import com.mongodb.client.MongoClients;
 
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 import com.redjen.spring_ex.domain.Member;
+import com.redjen.spring_ex.MemberRepository;
 import com.redjen.spring_ex.domain.Address;
 import com.redjen.spring_ex.domain.Card;
 
@@ -33,8 +31,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class MemberController {
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @PostMapping(value="", produces="text/plain; charset=UTF-8")
     public ResponseEntity<String> register(@Validated @RequestBody Member member, BindingResult result) {
+
         log.info("register");
         
         log.info("member.getUserId()= " + member.getUserId());
@@ -98,8 +100,8 @@ public class MemberController {
             ResponseEntity<String> entity = new ResponseEntity<String>(result.toString(), HttpStatus.BAD_REQUEST);
             return entity;
         }
-        //MongoOperations mongoOps = new MongoTemplate(MongoClients.create(), "test");
-        //mongoOps.insert(member);
+    
+        memberRepository.save(member);
 
         ResponseEntity<String> entity = new ResponseEntity<String>("Success", HttpStatus.OK);
         return entity;
