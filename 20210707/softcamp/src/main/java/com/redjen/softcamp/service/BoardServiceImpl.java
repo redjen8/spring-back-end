@@ -5,7 +5,6 @@ import java.util.List;
 import com.redjen.softcamp.domain.Board;
 import com.redjen.softcamp.repository.BoardRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-    @Autowired
     private final BoardRepository repository;
 
     @Override
@@ -29,16 +27,25 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public Board read(long boardNo) throws Exception {
-        return repository.getById(boardNo);
+        Board readObj = repository.getById(boardNo);
+        System.out.println("number = " + readObj.getBoardNo());
+        System.out.println("title = " + readObj.getTitle());
+        System.out.println("content = " + readObj.getContent());
+        System.out.println("writer = " + readObj.getWriter());
+        System.out.println("regdate = " + readObj.getRegDate());
+        return readObj;
     }
 
     @Override
     @Transactional
     public void modify(Board board) throws Exception {
         Board boardEntity = repository.getById(board.getBoardNo());
-
+        System.out.println("title changed " + boardEntity.getTitle() + "->" + board.getTitle());
+        System.out.println("content changed " + boardEntity.getContent() + "->" + board.getContent());
+        System.out.println("writer changed " + boardEntity.getWriter() + "->" + board.getWriter());
         boardEntity.setTitle(board.getTitle());
         boardEntity.setContent(board.getContent());
+        boardEntity.setWriter(board.getWriter());
     }
 
     @Override

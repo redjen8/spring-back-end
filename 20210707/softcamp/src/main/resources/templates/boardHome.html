@@ -25,9 +25,7 @@
                     contentType : "application/json; charset=UTF-8",
                     succcess : function(data) {
                         console.log(data);
-
                         alert(JSON.stringify(data));
-
                         $("#title").val(data.title);
                         $("#content").val(data.content);
                         $("#writer").val(data.writer);
@@ -43,7 +41,7 @@
             $("#registerBtn").click(function() {
                 var title = $("#title");
                 var content = $("#content");
-                var writer = $("writer");
+                var writer = $("#writer");
 
                 var titleVal = title.val();
                 var contentVal = content.val();
@@ -90,7 +88,7 @@
                 });
             });
 
-            $("modifyBtn").click(function() {
+            $("#modifyBtn").click(function() {
                 var boardNo = $("#boardNo");
                 var title = $("#title");
                 var content = $("#content");

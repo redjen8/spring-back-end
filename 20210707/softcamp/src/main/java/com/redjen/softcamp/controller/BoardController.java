@@ -5,7 +5,6 @@ import java.util.List;
 import com.redjen.softcamp.domain.Board;
 import com.redjen.softcamp.service.BoardService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/boards")
 public class BoardController {
 
-    @Autowired
     private final BoardService service;
 
     @GetMapping("/{boardNo}")
@@ -52,7 +50,10 @@ public class BoardController {
 
         service.register(board);
 
-        log.info("register board.getBoardNo()= " + board.getBoardNo());
+        log.info("register board.getBoardNo()= " + board.getBoardNo()
+        + "getTitle()= " + board.getTitle() 
+        + "getContent()= " + board.getContent()
+        + "getWriter()= " + board.getWriter());
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
