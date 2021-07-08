@@ -51,9 +51,9 @@ public class BoardController {
         service.register(board);
 
         log.info("register board.getBoardNo()= " + board.getBoardNo()
-        + "getTitle()= " + board.getTitle() 
-        + "getContent()= " + board.getContent()
-        + "getWriter()= " + board.getWriter());
+        + " getTitle()= " + board.getTitle() 
+        + " getContent()= " + board.getContent()
+        + " getWriter()= " + board.getWriter());
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }

@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         values(#{title}, #{content}, #{writer})
     </insert>
 
-    <select id="read" resultType="con.redjen.softcamp.domain.Board">
+    <select id="read" resultType="com.redjen.softcamp.domain.Board">
         select
         board_no as boardNo, title, content, writer, reg_date as regDate
         from board
@@ -17,8 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <update id="update">
-        update board set title = #{title}, scontent = #{content} 
+        <![CDATA[
+        update board set title = #{title}, content = #{content}, writer = #{writer}
         where board_no = #{boardNo}
+        ]]>
     </update>
 
     <delete id="delete">
