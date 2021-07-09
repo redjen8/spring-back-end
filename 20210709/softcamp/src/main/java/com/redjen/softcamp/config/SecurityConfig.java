@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.redjen.softcamp.common.security.CustomAccessDeniedHandler;
 import com.redjen.softcamp.common.security.CustomLoginSuccessHandler;
+import com.redjen.softcamp.common.security.CustomUserDetailsService;
 
 @Configuration
 @Slf4j
@@ -48,12 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+                auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        }
 
-                String query1 = "SELECT user_id, user_pw, enabled FROM member WHERE user_id = ?";
-                String query2 = "SELECT b.user_id, a.auth FROM member_auth a, member b WHERE a.user_no = b.user_no AND b.user_id = ?";
-
-                auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(query1)
-                                .authoritiesByUsernameQuery(query2).passwordEncoder(passwordEncoder());
+        @Bean
+        public UserDetailsService userDetailsService() {
+                return new CustomUserDetailsService();
         }
 
         @Bean
