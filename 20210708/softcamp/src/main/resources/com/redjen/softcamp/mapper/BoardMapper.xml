@@ -5,35 +5,73 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.redjen.softcamp.mapper.BoardMapper">
     <insert id="create" useGeneratedKeys="true" keyProperty="boardNo">
-        insert into board (title, content, writer)
-        values(#{title}, #{content}, #{writer})
+        INSERT INTO board
+        (
+            title,
+            content,
+            writer
+        )
+        VALUES
+        (
+            #{title},
+            #{content},
+            #{writer} 
+        )
     </insert>
 
-    <select id="read" resultType="com.redjen.softcamp.domain.Board">
-        select
-        board_no as boardNo, title, content, writer, reg_date as regDate
-        from board
-        where board_no = #{boardNo}
+    <select id="read" resultType="Board">
+        SELECT board_no,
+        title,
+        content,
+        writer,
+        reg_date
+        FROM board
+        WHERE board_no = #{boardNo} 
     </select>
 
     <update id="update">
-        <![CDATA[
-        update board set title = #{title}, content = #{content}, writer = #{writer}
-        where board_no = #{boardNo}
-        ]]>
+        UPDATE board
+        SET title = #{title},
+        content = #{content} 
+        WHERE board_no = #{boardNo} 
     </update>
 
     <delete id="delete">
-        delete from board where board_no = #{boardNo}
+        DELETE FROM board
+        WHERE board_no = #{boardNo} 
     </delete>
 
-    <select id="list" resultType="com.redjen.softcamp.domain.Board">
+    <select id="list" resultType="Board">
         <![CDATA[
-        select
-        board_no as boardNo, title, content, writer, reg_date as regDate
-        from board
-        where board_no > 0
-        order by board_no desc, reg_date desc
+        SELECT board_no,
+        title,
+        content,
+        writer,
+        reg_date
+        FROM board
+        WHERE board_no > 0
+        ORDER BY board_no DESC, reg_date DESC
+        ]]>
+    </select>
+
+    <select id="search" resultType="Board">
+        <![CDATA[ 
+        SELECT board_no,
+        title,
+        content,
+        writer,
+        reg_date
+        FROM board
+        WHERE board_no > 0
+        ]]>
+
+        <if test="title != null and title != ''">
+            AND title LIKE CONCAT('%', #{title}, '%')
+        </if>
+
+        <![CDATA[ 
+        ORDER BY board_no DESC,
+        reg_date DESC
         ]]>
     </select>
 </mapper>

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.data.elasticsearch.core.query;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/boards")
 public class BoardController {
-
+    
     private final BoardService service;
 
     @GetMapping("/{boardNo}")
@@ -76,5 +78,16 @@ public class BoardController {
         service.modify(board);
 
         return new ResponseEntity<>(board, HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Board>> search(@Validated @RequestBody SearchQuery searchQuery, Model Model) throws Exception {
+        log.info("search");
+
+        String title = searchQuery.getTitle();
+
+        log.info("search title = " + title);
+
+        return new ResponseEntity<>(service.search(title), HttpStatus.OK);
     }
 }

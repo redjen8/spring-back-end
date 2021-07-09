@@ -5,6 +5,7 @@ import java.util.List;
 import com.redjen.softcamp.domain.Board;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface BoardMapper {
@@ -18,4 +19,6 @@ public interface BoardMapper {
     public void delete(long boardNo) throws Exception;
 
     public List<Board> list() throws Exception;
+
+    public List<Board> search(@Param("title") String title) throws Exception;
 }
