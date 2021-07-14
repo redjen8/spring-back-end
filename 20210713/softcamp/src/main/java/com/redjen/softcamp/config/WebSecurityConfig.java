@@ -8,8 +8,13 @@ import javax.servlet.Filter;
 import com.redjen.softcamp.service.CustomAccessDeniedHandler;
 import com.redjen.softcamp.service.LoginSuccessHandler;
 import com.redjen.softcamp.service.UserDetailsServiceImpl;
+import com.redjen.softcamp.social.facebook.FacebookPrincipalExtractor;
+import com.redjen.softcamp.social.github.GithubPrincipalExtractor;
+import com.redjen.softcamp.social.google.GooglePrincipalExtractor;
+import com.redjen.softcamp.social.kakao.KakaoPrincipalExtractor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -47,6 +52,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LoginSuccessHandler loginSuccessHandler;
 
+    @Autowired
+    private FacebookPrincipalExtractor facebookPrincipalExtractor;
+
+    @Autowired
+    private KakaoPrincipalExtractor kakaoPrincipalExtractor;
+
+    @Autowired
+    private GithubPrincipalExtractor githubPrincipalExtractor;
+
+    @Autowired
+    private GooglePrincipalExtractor googlePrincipalExtractor;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // auth.inMemoryAuthentication().withUser("user").password(passwordEncoder().encode("1234")).roles("USER");
@@ -64,16 +81,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/login/**", "/logout/**", "/private/**", "/admin/**", "/", "/profile/**", "/my-login")
                 .and().authorizeRequests().antMatchers("/private/**").hasAnyRole("USER").antMatchers("/admin/**")
                 .hasAnyRole("ADMIN").and().sessionManagement().maximumSessions(1).expiredUrl("/login?expire=true").and()
-                .and().rememberMe().alwaysRemember(false).rememberMeParameter("remember-me") // 기본 파라메터
-                .and().formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("username")
+                .and().rememberMe().alwaysRemember(false).rememberMeParameter("remember-me").and().formLogin()
+                .loginPage("/login").loginProcessingUrl("/login").usernameParameter("username")
                 .passwordParameter("password").failureUrl("/login?error=true").successHandler(loginSuccessHandler).and()
-                .logout().deleteCookies("JSESSIONID").clearAuthentication(true).invalidateHttpSession(true).and()
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
+                .logout().logoutUrl("/logout").deleteCookies("JSESSIONID").clearAuthentication(true)
+                .invalidateHttpSession(true).and().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
 
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
     }
 
-    private Filter ssoFilter(ClientResources client, String path) {
+    private Filter ssoFilter(ClientResources client, String path, PrincipalExtractor extractor) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
 
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), auth2ClientContext);
@@ -81,6 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
                 client.getClient().getClientId());
         tokenServices.setRestTemplate(template);
+        tokenServices.setPrincipalExtractor(extractor);
         filter.setTokenServices(tokenServices);
         return filter;
     }
@@ -93,9 +111,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        filters.add(ssoFilter(kakao(), "/login/kakao"));
-        filters.add(ssoFilter(facebook(), "/login/facebook"));
-        filters.add(ssoFilter(github(), "/login/github"));
+        filters.add(ssoFilter(kakao(), "/login/kakao", kakaoPrincipalExtractor));
+        filters.add(ssoFilter(facebook(), "/login/facebook", facebookPrincipalExtractor));
+        filters.add(ssoFilter(github(), "/login/github", githubPrincipalExtractor));
+        filters.add(ssoFilter(google(), "/login/google", googlePrincipalExtractor));
         filter.setFilters(filters);
         return filter;
     }
@@ -115,6 +134,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @ConfigurationProperties("kakao")
     public ClientResources kakao() {
+        return new ClientResources();
+    }
+
+    @Bean
+    @ConfigurationProperties("google")
+    public ClientResources google() {
         return new ClientResources();
     }
 

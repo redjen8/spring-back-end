@@ -1,6 +1,10 @@
 package com.redjen.softcamp.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -18,5 +22,11 @@ public class UserEntity {
     private Integer idx;
 
     private String username;
+
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private SocialProvider sns;
+
+    private Date lastLogin;
 }

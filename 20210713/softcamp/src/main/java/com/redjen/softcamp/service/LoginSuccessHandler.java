@@ -1,6 +1,7 @@
 package com.redjen.softcamp.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
             Authentication authentication) throws IOException, ServletException {
 
         UserEntity userEntity = userRepository.findByUsername(authentication.getName());
+        userEntity.setLastLogin(new Date());
         userRepository.save(userEntity);
         super.onAuthenticationSuccess(request, response, authentication);
     }
