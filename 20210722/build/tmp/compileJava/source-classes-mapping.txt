@@ -1,4 +1,8 @@
 com/redjen/softcamp/web/HelloController.java
  com.redjen.softcamp.web.HelloController
+com/redjen/softcamp/domain/posts/PostsRepository.java
+ com.redjen.softcamp.domain.posts.PostsRepository
+com/redjen/softcamp/domain/posts/Posts.java
+ com.redjen.softcamp.domain.posts.Posts
 com/redjen/softcamp/Application.java
  com.redjen.softcamp.Application
