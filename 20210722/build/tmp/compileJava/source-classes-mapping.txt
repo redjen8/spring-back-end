@@ -4,5 +4,15 @@ com/redjen/softcamp/domain/posts/PostsRepository.java
  com.redjen.softcamp.domain.posts.PostsRepository
 com/redjen/softcamp/domain/posts/Posts.java
  com.redjen.softcamp.domain.posts.Posts
+ com.redjen.softcamp.domain.posts.Posts$PostsBuilder
 com/redjen/softcamp/Application.java
  com.redjen.softcamp.Application
+com/redjen/softcamp/service/posts/PostsService.java
+ com.redjen.softcamp.service.posts.PostsService
+com/redjen/softcamp/web/dto/PostsSaveRequestDto.java
+ com.redjen.softcamp.web.dto.PostsSaveRequestDto
+ com.redjen.softcamp.web.dto.PostsSaveRequestDto$PostsSaveRequestDtoBuilder
+com/redjen/softcamp/web/dto/HelloResponseDto.java
+ com.redjen.softcamp.web.dto.HelloResponseDto
+com/redjen/softcamp/web/PostsApiController.java
+ com.redjen.softcamp.web.PostsApiController

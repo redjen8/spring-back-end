@@ -1,0 +1,4 @@
+com/redjen/softcamp/domain/posts/PostsRepositoryTest.java
+ com.redjen.softcamp.domain.posts.PostsRepositoryTest
+com/redjen/softcamp/domain/posts/PostsApiControllerTest.java
+ com.redjen.softcamp.domain.posts.PostsApiControllerTest
